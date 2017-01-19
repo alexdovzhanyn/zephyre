@@ -34,6 +34,19 @@ This will set up a new zephyre project for you in the directory you're in. Next,
 
 This will start the server, and you'll be able to view your new project at localhost:9000
 
+Routing is handled in the config.ru file. The templating engine supported is currently only ERB. 
+Routes are mapped by pointing a url towards an action in a controller. The following are all valid routes:
+
+```ruby
+get '/' => 'ApplicationController.an_action'
+get '/:parameter1/:parameter2' => 'AnotherController.some_action'
+post '/helloworld' => 'WhateverController.some_method_that_does_something'
+match '/:controller/:action' => 'ApplicationController.action' # This catches all routes fitting the pattern and routes it to the specified action
+```
+
+The current supported HTTP verbs are: get, put, patch, post, and delete. Another method for matching routes is :match, which matches all routes with a specific pattern.
+
+
 ## Development
 
 After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake spec` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
