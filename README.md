@@ -1,4 +1,8 @@
+[![Gem Version](https://badge.fury.io/rb/zephyre.svg)](https://badge.fury.io/rb/zephyre)
+
 # Zephyre
+
+[![zephyre.png](https://s23.postimg.org/myvid41bv/zephyre.png)](https://postimg.org/image/ynzi12saf/)
 
 Zephyre is an opinionated ruby web framework that makes it easy to build small-scale projects. 
 
