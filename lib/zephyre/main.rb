@@ -12,7 +12,7 @@ module Zephyre
 		end
 
 		def get_rack_app(env)
-			@router.check_url(env["PATH_INFO"])
+			@router.check_url(env["PATH_INFO"], env["REQUEST_METHOD"])
 		end
 
   	def call(env)
