@@ -6,9 +6,12 @@ require "zephyre/routing"
 
 module Zephyre
   class Application
+
   	def map_routes(&block)
 			@router ||= Zephyre::Router.new
 			@router.instance_eval(&block)
+
+			puts "Zephyre has begun mining on port 9000"
 		end
 
 		def get_rack_app(env)

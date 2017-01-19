@@ -1,5 +1,3 @@
-require 'erubis'
-
 module Zephyre
 	class Controller
 		attr_reader :request
@@ -21,7 +19,7 @@ module Zephyre
 		end
 
 		def render(*args)
-			response(render_template(*args))
+			response(render_template(*args), 200, {"Content-Type" => "text/html"})
 		end
 
 		def render_template(view_name, locals = {})
@@ -34,7 +32,7 @@ module Zephyre
 				vars[key] = instance_variable_get(var)
 			end
 
-			Erubis::Eruby.new(template).result(locals.merge(vars))
+			ERB.new(template).result(binding)
 		end
 
 		def controller_name
@@ -49,7 +47,6 @@ module Zephyre
       else
         render(action)
         get_response
-        # [200, {"Content-Type" => "text/html"}, [response]]
       end
 		end
 

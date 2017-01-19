@@ -1,0 +1,89 @@
+#!/usr/bin/env ruby
+
+require 'zephyre/utils'
+
+if ARGV.first == "claim"
+
+@application_controller = "class ApplicationController < Zephyre::Controller
+	def index
+		render 'index'
+	end
+end
+"
+
+@gemfile = "source 'http://rubygems.org'
+
+gem 'zephyre'
+"
+
+@app = "require 'zephyre'
+
+$LOAD_PATH << File.join(File.dirname(__FILE__), \"app\", \"controllers\")
+
+module #{ARGV[1].to_camel_case}
+	class Application < Zephyre::Application
+
+	end
+end
+"
+
+@config = "require './app'
+
+#{ARGV[1]} = #{ARGV[1].to_camel_case}::Application.new
+
+#{ARGV[1]}.map_routes do
+	get '/' => 'Application.index'
+end
+
+run #{ARGV[1]}
+"
+
+@index = "<!doctype html>
+<html>
+	<head>
+		<title>Welcome to Zephyre!</title>
+	</head>
+	<body style=\"background-color: #161421;\">
+		<div style=\"width: 40%; margin-left: 30%; margin-top: 10%; font-family: sans-serif;\">
+			<img src=\"https://s29.postimg.org/5kr4p87gn/zephyre.png\" style=\"width:100%;\"/>
+			<p style=\"text-align: center; color: #fff;\">Yay, you're on Zephyre! Get started by editing this page at <i><%= File.join(Dir.pwd, \"app\", \"views\", \"application\", \"index.erb\") %></i></p>
+		</div>
+	</body>
+</html>"
+
+end
+
+case ARGV.first
+when "claim"
+	Dir.mkdir(File.join(Dir.pwd, ARGV[1]), 0700)
+		Dir.mkdir(File.join(Dir.pwd, ARGV[1], "app"), 0700)
+			Dir.mkdir(File.join(Dir.pwd, ARGV[1], "app", "controllers"), 0700)
+				File.open(File.join(Dir.pwd, ARGV[1], "app", "controllers", "application_controller.rb"), "w+") do |file|
+					file.write(@application_controller)
+				end
+			Dir.mkdir(File.join(Dir.pwd, ARGV[1], "app", "views"), 0700)
+				Dir.mkdir(File.join(Dir.pwd, ARGV[1], "app", "views", "application"), 0700)
+					File.open(File.join(Dir.pwd, ARGV[1], "app", "views", "application", "index.erb"), "w+") do |file|
+						file.write(@index)
+					end
+
+	File.open(File.join(Dir.pwd, ARGV[1], "Gemfile"), "w+") do |file|
+		file.write(@gemfile)
+	end
+
+	File.open(File.join(Dir.pwd, ARGV[1], "app.rb"), "w+") do |file|
+		file.write(@app)
+	end
+
+	File.open(File.join(Dir.pwd, ARGV[1], "config.ru"), "w+") do |file|
+		file.write(@config)
+	end
+	# File.open(File.join)
+	# Dir.mkdir(File.join(Dir.pwd, ARGV[1], "config"), 0700)
+	puts "Project #{ARGV[1]} created."
+when "prospect"
+	# TODO
+when "server"
+	system("rackup -p 9000")
+	$stderr.puts "Zephyre has begun mining on port 9000"
+end
