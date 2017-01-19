@@ -22,11 +22,11 @@ Or install it yourself as:
 
 Setting up a new project with zephyre is easy. Just go to your desired directory and run:
 		
-		$ zephyre claim your_project_name
+    $ zephyre claim your_project_name
 
 This will set up a new zephyre project for you in the directory you're in. Next, `cd` into the directory zephyre generated for you, and run:
 		
-		$ zephyre server
+    $ zephyre server
 
 This will start the server, and you'll be able to view your new project at localhost:9000
 
