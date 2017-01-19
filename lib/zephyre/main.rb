@@ -6,6 +6,15 @@ require "zephyre/routing"
 
 module Zephyre
   class Application
+  	def map_routes(&block)
+			@router ||= Zephyre::Router.new
+			@router.instance_eval(&block)
+		end
+
+		def get_rack_app(env)
+			@router.check_url(env["PATH_INFO"])
+		end
+
   	def call(env)
       get_rack_app(env).call(env)
   	end
