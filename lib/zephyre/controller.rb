@@ -1,3 +1,4 @@
+require 'pry'
 module Zephyre
 	class Controller
 		attr_reader :request
@@ -24,7 +25,9 @@ module Zephyre
 
 		def render_template(view_name, locals = {})
 			filename = File.join("app", "views", controller_name, "#{view_name}.erb")
-			template = File.read(filename)
+
+			# If we find a file, render it, otherwise just render whatever was passed as a string
+			template = File.file?(filename) ? File.read(filename) : view_name.to_s
 
 			vars = {}
 			instance_variables.each do |var|

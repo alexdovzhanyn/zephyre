@@ -1,3 +1,4 @@
+require 'pry'
 class String
 	def to_snake_case
 		self.gsub("::", "/").
@@ -11,5 +12,11 @@ class String
 		return self if self !~ /_/ && self =~ /[A-Z]+.*/
 
 		split('_').map{ |str| str.capitalize }.join
+	end
+end
+
+module Zephyre
+	def self.is_environment?(environment)
+		environment.to_s == ENV['RACK_ENV']
 	end
 end
